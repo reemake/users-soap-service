@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://codemark.ru/userssoapservice"
+           xmlns:tns="http://codemark.ru/userssoapservice"
+           elementFormDefault="qualified">
+
+    <xs:element name="GetUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="login" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetUsersRequest">
+        <xs:complexType/>
+    </xs:element>
+
+    <xs:element name="GetUsersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="UsersDetails" type="tns:UserDetails" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetUserResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="UserDetails" type="tns:UserDetails"/>
+                <xs:element name="roles" type="xs:string" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="UserDetails">
+        <xs:sequence>
+            <xs:element name="login" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="password" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

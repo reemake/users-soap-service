@@ -25,11 +25,11 @@ public class DataLoader implements ApplicationRunner {
         roleRepository.save(new Role(1L, "Admin", null));
         roleRepository.save(new Role(2L, "Operator", null));
         roleRepository.save(new Role(3L, "Analyst", null));
-
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findById(1L).get());
-        roles.add(roleRepository.findById(3L).get());
-        userRepository.save(new User("reemake", "Nikita", "1234", roles));
-        userRepository.save(new User("captoshka", "Anton", "cap333", roles));
+//
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(roleRepository.findById(1L).get());
+//        roles.add(roleRepository.findById(3L).get());
+//        userRepository.save(new User("reemake", "Nikita", "1234", roles));
+//        userRepository.save(new User("captoshka", "Anton", "cap333", roles));
     }
 }

@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="UsersDetails" type="{http://codemark.ru/userssoapservice}UserDetails" maxOccurs="unbounded"/>
+ *         &lt;element name="UserDetails" type="{http://codemark.ru/userssoapservice}UserDetails"/>
+ *         &lt;element name="role" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,41 +39,68 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "usersDetails"
+    "userDetails",
+    "role"
 })
-@XmlRootElement(name = "GetUsersResponse")
-public class GetUsersResponse {
+@XmlRootElement(name = "PostUserRequest")
+public class PostUserRequest {
 
-    @XmlElement(name = "UsersDetails", required = true)
-    protected List<UserDetails> usersDetails;
+    @XmlElement(name = "UserDetails", required = true)
+    protected UserDetails userDetails;
+    @XmlElement(required = true)
+    protected List<String> role;
 
     /**
-     * Gets the value of the usersDetails property.
+     * Gets the value of the userDetails property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link UserDetails }
+     *     
+     */
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    /**
+     * Sets the value of the userDetails property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link UserDetails }
+     *     
+     */
+    public void setUserDetails(UserDetails value) {
+        this.userDetails = value;
+    }
+
+    /**
+     * Gets the value of the role property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the usersDetails property.
+     * This is why there is not a <CODE>set</CODE> method for the role property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getUsersDetails().add(newItem);
+     *    getRole().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link UserDetails }
+     * {@link String }
      * 
      * 
      */
-    public List<UserDetails> getUsersDetails() {
-        if (usersDetails == null) {
-            usersDetails = new ArrayList<UserDetails>();
+    public List<String> getRole() {
+        if (role == null) {
+            role = new ArrayList<String>();
         }
-        return this.usersDetails;
+        return this.role;
     }
 
 }

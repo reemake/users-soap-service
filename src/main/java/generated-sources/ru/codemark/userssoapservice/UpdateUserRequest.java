@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="UserDetails" type="{http://codemark.ru/userssoapservice}UserDetails"/>
+ *         &lt;element name="oldLogin" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="UpdatedUserDetails" type="{http://codemark.ru/userssoapservice}UserDetails"/>
  *         &lt;element name="role" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -39,39 +40,66 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "userDetails",
+    "oldLogin",
+    "updatedUserDetails",
     "role"
 })
-@XmlRootElement(name = "GetUserResponse")
-public class GetUserResponse {
+@XmlRootElement(name = "UpdateUserRequest")
+public class UpdateUserRequest {
 
-    @XmlElement(name = "UserDetails", required = true)
-    protected UserDetails userDetails;
+    @XmlElement(required = true)
+    protected String oldLogin;
+    @XmlElement(name = "UpdatedUserDetails", required = true)
+    protected UserDetails updatedUserDetails;
     @XmlElement(required = true)
     protected List<String> role;
 
     /**
-     * Gets the value of the userDetails property.
+     * Gets the value of the oldLogin property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getOldLogin() {
+        return oldLogin;
+    }
+
+    /**
+     * Sets the value of the oldLogin property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setOldLogin(String value) {
+        this.oldLogin = value;
+    }
+
+    /**
+     * Gets the value of the updatedUserDetails property.
      * 
      * @return
      *     possible object is
      *     {@link UserDetails }
      *     
      */
-    public UserDetails getUserDetails() {
-        return userDetails;
+    public UserDetails getUpdatedUserDetails() {
+        return updatedUserDetails;
     }
 
     /**
-     * Sets the value of the userDetails property.
+     * Sets the value of the updatedUserDetails property.
      * 
      * @param value
      *     allowed object is
      *     {@link UserDetails }
      *     
      */
-    public void setUserDetails(UserDetails value) {
-        this.userDetails = value;
+    public void setUpdatedUserDetails(UserDetails value) {
+        this.updatedUserDetails = value;
     }
 
     /**

@@ -33,16 +33,12 @@ public class UserService {
         }
     }
 
-    public boolean updateUser(String oldLogin, User user) {
-        if (isUserExist(oldLogin))
+    public boolean updateUser(String currentLogin, User user) {
+        if (isUserExist(user.getLogin()))
             return false;
         else {
-            User existingUser = userRepository.findById(oldLogin).orElse(null);
-            existingUser.setLogin(user.getLogin());
-            existingUser.setName(user.getName());
-            existingUser.setPassword(user.getPassword());
-            existingUser.setRoles(user.getRoles());
-            userRepository.save(existingUser);
+            userRepository.deleteById(currentLogin);
+            userRepository.save(user);
             return true;
         }
     }

@@ -25,7 +25,7 @@
     <xs:element name="UpdateUserRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="oldLogin" type="xs:string"/>
+                <xs:element name="currentLogin" type="xs:string"/>
                 <xs:element name="UpdatedUserDetails" type="tns:UserDetails"/>
                 <xs:element name="role" type="xs:string" maxOccurs="unbounded"/>
             </xs:sequence>
@@ -69,6 +69,8 @@
     <xs:element name="GetUserResponse">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="success" type="xs:string"/>
+                <xs:element name="error" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="UserDetails" type="tns:UserDetails"/>
                 <xs:element name="role" type="xs:string" maxOccurs="unbounded"/>
             </xs:sequence>
@@ -91,7 +93,7 @@
         <xs:sequence>
             <xs:element name="login" type="xs:string"/>
             <xs:element name="password" type="xs:string"/>
-            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="name" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

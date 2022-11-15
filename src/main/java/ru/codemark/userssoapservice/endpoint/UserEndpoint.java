@@ -5,7 +5,6 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import ru.codemark.userssoapservice.*;
 import ru.codemark.userssoapservice.DeleteUserRequest;
 import ru.codemark.userssoapservice.DeleteUserResponse;
 import ru.codemark.userssoapservice.GetUserRequest;
@@ -44,16 +43,21 @@ public class UserEndpoint {
         UserDetails userDetails = new UserDetails();
         User existingUser = userService.getUser(request.getLogin());
 
-        userDetails.setLogin(existingUser.getLogin());
-        userDetails.setName(existingUser.getName());
-        userDetails.setPassword(existingUser.getPassword());
-
-        List<Role> existingUserRolesList = new ArrayList<>(existingUser.getRoles());
-        for (Role role : existingUserRolesList) {
-            response.getRole().add(role.getName());
+        if (existingUser == null) {
+            response.setSuccess("false");
+            response.getError().add("User with stated login does not exist");
         }
+        else {
+            userDetails.setLogin(existingUser.getLogin());
+            userDetails.setName(existingUser.getName());
+            userDetails.setPassword(existingUser.getPassword());
 
-        response.setUserDetails(userDetails);
+            List<Role> existingUserRolesList = new ArrayList<>(existingUser.getRoles());
+            for (Role role : existingUserRolesList) {
+                response.getRole().add(role.getName());
+            }
+            response.setUserDetails(userDetails);
+        }
 
         return response;
     }
@@ -65,7 +69,7 @@ public class UserEndpoint {
         GetUsersResponse response = new GetUsersResponse();
 
         List<User> users = userService.getUsers();
-        for (User user: users) {
+        for (User user : users) {
             UserDetails userDetails = new UserDetails();
             userDetails.setLogin(user.getLogin());
             userDetails.setName(user.getName());
@@ -86,6 +90,11 @@ public class UserEndpoint {
         if (request.getUserDetails().getLogin().equals("")) {
             response.setSuccess("false");
             response.getError().add("Login is missing");
+        }
+
+        if (request.getUserDetails().getName().equals("")) {
+            response.setSuccess("false");
+            response.getError().add("Name is missing");
         }
 
         if (request.getUserDetails().getPassword().equals("")) {
@@ -112,12 +121,13 @@ public class UserEndpoint {
                     request.getUserDetails().getPassword(),
                     roles);
 
-            if (userService.addUser(user))
-                response.setSuccess("true");
-            else {
+            if (!userService.addUser(user)) {
                 response.setSuccess("false");
                 response.getError().add("User with stated login already exists");
             }
+
+            else
+                response.setSuccess("true");
         }
 
         return response;
@@ -129,14 +139,24 @@ public class UserEndpoint {
 
         UpdateUserResponse response = new UpdateUserResponse();
 
+        if (request.getCurrentLogin().equals("")) {
+            response.setSuccess("false");
+            response.getError().add("Current login is missing");
+        }
+
         if (request.getUpdatedUserDetails().getLogin().equals("")) {
             response.setSuccess("false");
-            response.getError().add("Login is missing");
+            response.getError().add("New login is missing");
+        }
+
+        if (request.getUpdatedUserDetails().getName().equals("")) {
+            response.setSuccess("false");
+            response.getError().add("New name is missing");
         }
 
         if (request.getUpdatedUserDetails().getPassword().equals("")) {
             response.setSuccess("false");
-            response.getError().add("Password is missing");
+            response.getError().add("New password is missing");
         }
 
         else if (!request.getUpdatedUserDetails().getPassword().matches("(?=.*[A-Z])(?=.*\\d).{0,}")) {
@@ -152,17 +172,27 @@ public class UserEndpoint {
                 roles.add(eachRole);
             }
 
-            User user = new User(
-                    request.getUpdatedUserDetails().getLogin(),
-                    request.getUpdatedUserDetails().getName(),
-                    request.getUpdatedUserDetails().getPassword(),
-                    roles);
+            User existingUser = userService.getUser(request.getCurrentLogin());
 
-            if (userService.updateUser(request.getOldLogin(), user))
-                response.setSuccess("true");
-            else {
+            if (existingUser == null) {
                 response.setSuccess("false");
-                response.getError().add("User with stated login already exists");
+                response.getError().add("User with stated login does not exists");
+            }
+
+            else {
+                existingUser.setLogin(request.getUpdatedUserDetails().getLogin());
+                existingUser.setPassword(request.getUpdatedUserDetails().getPassword());
+                existingUser.setName(request.getUpdatedUserDetails().getName());
+                if (!roles.isEmpty())
+                    existingUser.setRoles(roles);
+
+                if (!userService.updateUser(request.getCurrentLogin(), existingUser)) {
+                    response.setSuccess("false");
+                    response.getError().add("User with stated login already exists");
+                }
+
+                else
+                    response.setSuccess("true");
             }
         }
 

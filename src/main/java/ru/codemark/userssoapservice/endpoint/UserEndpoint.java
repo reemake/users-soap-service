@@ -87,24 +87,26 @@ public class UserEndpoint {
 
         PostUserResponse response = new PostUserResponse();
 
-        if (request.getUserDetails().getLogin().equals("")) {
-            response.setSuccess("false");
-            response.getError().add("Login is missing");
-        }
+        if (request.getUserDetails().getLogin().equals("") ||
+                request.getUserDetails().getName().equals("") ||
+                request.getUserDetails().getPassword().equals("") ||
+                !request.getUserDetails().getPassword().matches("(?=.*[A-Z])(?=.*\\d).{0,}")
+        ) {
 
-        if (request.getUserDetails().getName().equals("")) {
             response.setSuccess("false");
-            response.getError().add("Name is missing");
-        }
 
-        if (request.getUserDetails().getPassword().equals("")) {
-            response.setSuccess("false");
-            response.getError().add("Password is missing");
-        }
+            if (request.getUserDetails().getLogin().equals(""))
+                response.getError().add("Login is missing");
 
-        else if (!request.getUserDetails().getPassword().matches("(?=.*[A-Z])(?=.*\\d).{0,}")) {
-            response.setSuccess("false");
-            response.getError().add("Password must contain at least one uppercase letter and one digit");
+            if (request.getUserDetails().getName().equals(""))
+                response.getError().add("Name is missing");
+
+            if (request.getUserDetails().getPassword().equals(""))
+                response.getError().add("Password is missing");
+
+            if (!request.getUserDetails().getPassword().matches("(?=.*[A-Z])(?=.*\\d).{0,}") &&
+                    !request.getUserDetails().getPassword().equals(""))
+                response.getError().add("Password must contain at least one uppercase letter and one digit");
         }
 
         else {
@@ -139,29 +141,30 @@ public class UserEndpoint {
 
         UpdateUserResponse response = new UpdateUserResponse();
 
-        if (request.getCurrentLogin().equals("")) {
-            response.setSuccess("false");
-            response.getError().add("Current login is missing");
-        }
+        if (request.getCurrentLogin().equals("") ||
+                request.getUpdatedUserDetails().getLogin().equals("") ||
+                request.getUpdatedUserDetails().getName().equals("") ||
+                request.getUpdatedUserDetails().getPassword().equals("") ||
+                !request.getUpdatedUserDetails().getPassword().matches("(?=.*[A-Z])(?=.*\\d).{0,}")
+        ) {
 
-        if (request.getUpdatedUserDetails().getLogin().equals("")) {
             response.setSuccess("false");
-            response.getError().add("New login is missing");
-        }
 
-        if (request.getUpdatedUserDetails().getName().equals("")) {
-            response.setSuccess("false");
-            response.getError().add("New name is missing");
-        }
+            if (request.getCurrentLogin().equals(""))
+                response.getError().add("Current login is missing");
 
-        if (request.getUpdatedUserDetails().getPassword().equals("")) {
-            response.setSuccess("false");
-            response.getError().add("New password is missing");
-        }
+            if (request.getUpdatedUserDetails().getLogin().equals(""))
+                response.getError().add("New login is missing");
 
-        else if (!request.getUpdatedUserDetails().getPassword().matches("(?=.*[A-Z])(?=.*\\d).{0,}")) {
-            response.setSuccess("false");
-            response.getError().add("Password must contain at least one uppercase letter and one digit");
+            if (request.getUpdatedUserDetails().getName().equals(""))
+                response.getError().add("New name is missing");
+
+            if (request.getUpdatedUserDetails().getPassword().equals(""))
+                response.getError().add("New password is missing");
+
+            if (!request.getUpdatedUserDetails().getPassword().matches("(?=.*[A-Z])(?=.*\\d).{0,}") &&
+                    !request.getUpdatedUserDetails().getPassword().equals(""))
+                response.getError().add("Password must contain at least one uppercase letter and one digit");
         }
 
         else {

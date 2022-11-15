@@ -8,6 +8,9 @@ import ru.codemark.userssoapservice.entity.Role;
 import ru.codemark.userssoapservice.repository.RoleRepository;
 import ru.codemark.userssoapservice.repository.UserRepository;
 
+/**
+ * Class for inserting values into roles table
+ */
 @Component
 public class DataLoader implements ApplicationRunner {
 

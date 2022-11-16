@@ -10,7 +10,6 @@ import org.springframework.xml.transform.StringSource;
 import ru.codemark.userssoapservice.entity.Role;
 import ru.codemark.userssoapservice.entity.User;
 import ru.codemark.userssoapservice.repository.RoleRepository;
-import ru.codemark.userssoapservice.repository.UserRepository;
 import ru.codemark.userssoapservice.service.UserService;
 
 import java.io.IOException;
@@ -264,6 +263,7 @@ public class UserEndpointTest {
 
         client.sendRequest(withPayload(request))
                 .andExpect(noFault())
+                .andExpect(validPayload(new ClassPathResource("wsdl/users.xsd")))
                 .andExpect(payload(expectedResponse));
     }
 

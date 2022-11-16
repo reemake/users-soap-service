@@ -13,16 +13,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean isUserExist(String login) {
-        User userByLogin = userRepository.findById(login).orElse(null);
-        if (userByLogin != null)
-            return true;
-        else
-            return false;
+    public boolean isUserExists(String login) {
+        return userRepository.findById(login).isPresent();
     }
 
     public boolean addUser(User user) {
-        if (isUserExist(user.getLogin()))
+        if (isUserExists(user.getLogin()))
             return false;
         else {
             user.setName(user.getName());
@@ -34,7 +30,7 @@ public class UserService {
     }
 
     public boolean updateUser(String currentLogin, User user) {
-        if (isUserExist(user.getLogin()))
+        if (isUserExists(user.getLogin()))
             return false;
         else {
             userRepository.deleteById(currentLogin);
@@ -44,7 +40,7 @@ public class UserService {
     }
 
     public User getUser(String login) {
-        return userRepository.findById(login).orElse(null);
+        return userRepository.findById(login).get();
     }
 
     public List<User> getUsers() {
@@ -52,7 +48,7 @@ public class UserService {
     }
 
     public boolean deleteUserByLogin(String login) {
-        if (isUserExist(login)) {
+        if (isUserExists(login)) {
             userRepository.deleteById(login);
             return true;
         }

@@ -41,13 +41,13 @@ public class UserEndpoint {
 
         GetUserResponse response = new GetUserResponse();
         UserDetails userDetails = new UserDetails();
-        User existingUser = userService.getUser(request.getLogin());
 
-        if (existingUser == null) {
+        if (!userService.isUserExists(request.getLogin())) {
             response.setSuccess("false");
             response.getError().add("User with stated login does not exist");
         }
         else {
+            User existingUser = userService.getUser(request.getLogin());
             userDetails.setLogin(existingUser.getLogin());
             userDetails.setName(existingUser.getName());
             userDetails.setPassword(existingUser.getPassword());

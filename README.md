@@ -25,7 +25,8 @@
 
 ## XSD-схема
 XSD-схема расположена по пути: ```src/main/resources/wsdl/users.xsd```  
-Сгенерированные классы, соответвующие данной схеме, расположены по пути: ```src/main/java/generated-sources/ru/codemark/userssoapservice```  
+Для генерации классов, соответствующих данной схеме, перед запуском spring-приложения необходимо выполнить ```mvn clean install```   
+Сгенерированные классы будут расположены по пути: ```src/main/java/generated-sources/ru/codemark/userssoapservice```  
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>

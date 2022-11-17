@@ -24,7 +24,8 @@
 - PostgreSQL
 
 ## XSD-схема
-XSD-схема расположена по пути: ```src/main/resources/wsdl/users.xsd```   
+XSD-схема расположена по пути: ```src/main/resources/wsdl/users.xsd```  
+Сгенерированные классы, соответвующие данной схеме, расположены по пути: ```src/main/java/generated-sources/ru/codemark/userssoapservice```  
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
